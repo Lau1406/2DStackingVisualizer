@@ -68,3 +68,5 @@ crashlytics-build.properties
 fabric.properties
 
 .idea
+testInputFile.txt
+2D Stacking Visualizer.iml
