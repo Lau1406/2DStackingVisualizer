@@ -19,6 +19,7 @@ import java.util.Scanner;
 public class InputReader {
 
     private Rectangle[] mRectangles;
+    private boolean mRotationsAllowed = false;
 
     public InputReader() {
 
@@ -102,9 +103,9 @@ public class InputReader {
         //read if rotations are allowed
         String rotationsAllowed = sc.next();
         if (rotationsAllowed.equalsIgnoreCase("yes")) {
-//            mMainFrame.setRotationsAllowed(true);
+            mRotationsAllowed = true;
         } else if (rotationsAllowed.equalsIgnoreCase("no")) {
-//            mMainFrame.setRotationsAllowed(false);
+            mRotationsAllowed = false;
         }
     }
 
@@ -145,6 +146,9 @@ public class InputReader {
 
         // Read all the locations of the rectangles
         for (int i = 0; i < mRectangles.length; i++) {
+            if (mRotationsAllowed) {
+                sc.next();  // Consume 'yes' or 'no'
+            }
             mRectangles[i].setBottomLeft(new Point(sc.nextInt(), sc.nextInt()));
         }
     }
