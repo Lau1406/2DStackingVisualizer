@@ -10,4 +10,7 @@ public abstract class Constants {
 
     public static final double SCREEN_WIDTH = screenSize.getWidth();
     public static final double SCREEN_HEIGHT = screenSize.getHeight();
+
+    // Strings
+    public static final String ARG_FILE = "-f";
 }
