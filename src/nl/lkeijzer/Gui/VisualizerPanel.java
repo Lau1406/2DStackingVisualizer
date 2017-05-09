@@ -5,6 +5,8 @@ import java.awt.*;
 
 import nl.lkeijzer.Objects.Rectangle;
 
+import static nl.lkeijzer.Constants.*;
+
 /**
  * Created by Laurence Keijzer on 2017-05-04.
  */
@@ -42,6 +44,34 @@ public class VisualizerPanel extends JPanel {
         super.paintComponent(g);
 
         g.drawRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
+
+        Color oldColor = g.getColor();
+        for (int i = 0; i < (int) TABLE_SIZE; i++) {
+            g.setColor(Color.GRAY.brighter());
+            // Axis
+            int x = Math.round(this.getWidth() / TABLE_SIZE * i);
+            g.drawLine(x, this.getHeight(), x, 0);
+
+            int y = Math.round(this.getHeight() / TABLE_SIZE * i);
+            g.drawLine(0, y, this.getWidth(), y);
+
+            // Don't print string if i == 0
+            if (i == 0) {
+                continue;
+            }
+
+            // Axis name
+            g.setColor(Color.BLACK);
+            String str = String.valueOf(Math.round(mContainer.getWidth() / TABLE_SIZE * i));
+            int offset = Math.round(this.getWidth() / TABLE_SIZE * i - (str.length() * STR_OFFSET_WIDTH_CHAR));
+            g.drawString(str, offset, this.getHeight() - LINE_HEIGHT);
+
+            str = String.valueOf(Math.round(mContainer.getHeight() - (mContainer.getHeight() / TABLE_SIZE * i)));
+            offset = Math.round(this.getHeight() / TABLE_SIZE * i + STR_OFFSET_HEIGHT_CHAR);
+            g.drawString(str, LINE_HEIGHT, offset);
+        }
+        g.setColor(oldColor);
+
         g.setColor(Color.BLACK);
         if (mRectangles == null) {
             return;
