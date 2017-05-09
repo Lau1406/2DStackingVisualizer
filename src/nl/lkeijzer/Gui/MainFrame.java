@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+import static nl.lkeijzer.Constants.*;
+
 /**
  * Created by Laurence on 2017-05-05.
  */
@@ -65,9 +67,10 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener 
 
 
         // TODO: set min size dynamically
-        this.setMinimumSize(new Dimension(800, 800));
+        int min = (int) Math.min(SCREEN_WIDTH, SCREEN_HEIGHT);
+        this.setMinimumSize(new Dimension(min, min));
         this.setLocation(
-                (int) (Constants.SCREEN_WIDTH / 2 - this.getWidth() / 2),
+                (int) (SCREEN_WIDTH / 2 - this.getWidth() / 2),
                 (int) (Constants.SCREEN_HEIGHT / 2 - this.getHeight() / 2));
         this.setVisible(true);
     }
