@@ -15,7 +15,7 @@ public abstract class Constants {
     public static final String ARG_FILE = "-f";
 
     // Ints
-    public static final int LINE_HEIGHT = 15;
+    public static final int LINE_HEIGHT = 5;
     public static final int STR_OFFSET_WIDTH_CHAR = 3;
     public static final int STR_OFFSET_HEIGHT_CHAR = 5;
 

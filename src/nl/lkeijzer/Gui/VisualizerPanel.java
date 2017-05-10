@@ -42,32 +42,36 @@ public class VisualizerPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        int width = this.getWidth();
+        int height = this.getHeight();
 
-        g.drawRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
+        g.drawRect(0, 0, width - 1, height - 1);
 
         Color oldColor = g.getColor();
         for (int i = 0; i < (int) TABLE_SIZE; i++) {
             g.setColor(Color.GRAY.brighter());
             // Axis
-            int x = Math.round(this.getWidth() / TABLE_SIZE * i);
-            g.drawLine(x, this.getHeight(), x, 0);
+            int x = Math.round(width / TABLE_SIZE * i);
+            g.drawLine(x, height, x, 0);
 
-            int y = Math.round(this.getHeight() / TABLE_SIZE * i);
-            g.drawLine(0, y, this.getWidth(), y);
+            int y = Math.round(height / TABLE_SIZE * i);
+            g.drawLine(0, y, width, y);
 
-            // Don't print string if i == 0
-            if (i == 0) {
-                continue;
-            }
 
             // Axis name
             g.setColor(Color.BLACK);
+
+            // Don't print string if i == 0
+            if (i == 0) {
+                g.drawString("0", LINE_HEIGHT, height - LINE_HEIGHT);
+                continue;
+            }
             String str = String.valueOf(Math.round(mContainer.getWidth() / TABLE_SIZE * i));
-            int offset = Math.round(this.getWidth() / TABLE_SIZE * i - (str.length() * STR_OFFSET_WIDTH_CHAR));
-            g.drawString(str, offset, this.getHeight() - LINE_HEIGHT);
+            int offset = Math.round(width / TABLE_SIZE * i - (str.length() * STR_OFFSET_WIDTH_CHAR));
+            g.drawString(str, offset, height - LINE_HEIGHT);
 
             str = String.valueOf(Math.round(mContainer.getHeight() - (mContainer.getHeight() / TABLE_SIZE * i)));
-            offset = Math.round(this.getHeight() / TABLE_SIZE * i + STR_OFFSET_HEIGHT_CHAR);
+            offset = Math.round(height / TABLE_SIZE * i + STR_OFFSET_HEIGHT_CHAR);
             g.drawString(str, LINE_HEIGHT, offset);
         }
         g.setColor(oldColor);
