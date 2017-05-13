@@ -39,7 +39,8 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener 
         mCallback = callback;
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.addWindowListener(this);
-        this.setSize(900, 900);
+        int min = (int) Math.min(SCREEN_WIDTH, SCREEN_HEIGHT);
+        this.setSize(min, min);
         this.setLayout(new BorderLayout());
 
         c = new GridBagConstraints();
@@ -65,10 +66,7 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener 
         this.add(mVisualizerPanel);
         this.repaint();
 
-
-        // TODO: set min size dynamically
-        int min = (int) Math.min(SCREEN_WIDTH, SCREEN_HEIGHT);
-        this.setMinimumSize(new Dimension(min, min));
+        this.setMinimumSize(new Dimension(600, 600));
         this.setLocation(
                 (int) (SCREEN_WIDTH / 2 - this.getWidth() / 2),
                 (int) (Constants.SCREEN_HEIGHT / 2 - this.getHeight() / 2));
