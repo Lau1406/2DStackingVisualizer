@@ -1,6 +1,5 @@
 package nl.lkeijzer.Services;
 
-import nl.lkeijzer.Gui.MainFrame;
 import nl.lkeijzer.Objects.Rectangle;
 
 import java.awt.*;
@@ -20,6 +19,8 @@ public class InputReader {
 
     private Rectangle[] mRectangles;
     private boolean mRotationsAllowed = false;
+    private boolean mFixedHeight = false;
+    private int mHeight = 0;
 
     public InputReader() {
 
@@ -81,10 +82,12 @@ public class InputReader {
         //read if the height is fixed or free and set it accordingly
         String heightFixed = sc.next();
         if (heightFixed.equalsIgnoreCase("fixed")) {
-            int height = sc.nextInt();
+            mFixedHeight = true;
+            mHeight = sc.nextInt();
 //            mMainFrame.setFixedHeight(true);
 //            mMainFrame.setMaxHeight(height);
         } else if (heightFixed.equalsIgnoreCase("free")) {
+            mFixedHeight = false;
 //            mMainFrame.setFixedHeight(false);
 //            mMainFrame.setMaxHeight(Integer.MAX_VALUE);
         }
@@ -151,5 +154,17 @@ public class InputReader {
             }
             mRectangles[i].setBottomLeft(new Point(sc.nextInt(), sc.nextInt()));
         }
+    }
+
+    public boolean isRotationsAllowed() {
+        return mRotationsAllowed;
+    }
+
+    public boolean isFixedHeight() {
+        return mFixedHeight;
+    }
+
+    public int getHeight() {
+        return mHeight;
     }
 }

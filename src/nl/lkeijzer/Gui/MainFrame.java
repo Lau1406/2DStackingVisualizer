@@ -15,6 +15,10 @@ import static nl.lkeijzer.Constants.*;
  */
 public class MainFrame extends JFrame implements WindowListener, ActionListener, ComponentListener {
 
+    private boolean mFixedHeight;
+    private boolean mRotationsAllowed;
+    private int mMaxHeight;
+
     private Rectangle[] mRectangles;
 
     private VisualizerPanel mVisualizerPanel;
@@ -28,8 +32,12 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener,
 
 
 
-    public MainFrame(String title, Rectangle[] rectangles, Callback callback) {
+    public MainFrame(String title, Rectangle[] rectangles, boolean fixedHeight, boolean rotationsAllowed,
+                     int maxHeight, Callback callback) {
         super(title);
+        mFixedHeight = fixedHeight;
+        mRotationsAllowed = rotationsAllowed;
+        mMaxHeight = maxHeight;
         mCallback = callback;
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.addWindowListener(this);
@@ -39,7 +47,7 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener,
 
         mWrapper = new JPanel(new MigLayout());
 
-        mVisualizerPanel = new VisualizerPanel(rectangles);
+        mVisualizerPanel = new VisualizerPanel(rectangles, mFixedHeight, mRotationsAllowed, mMaxHeight);
         mInfoPanel = new InfoPanel(rectangles);
 
         mButtonReadData = new JButton("Get Data");

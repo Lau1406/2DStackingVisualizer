@@ -24,4 +24,20 @@ public final class CustomMath {
         }
         container.setSize(maxWidth, maxHeight);
     }
+
+    public static double rangeChange(int start, int maxOld, int maxNew, double value) {
+        int rangeOld = (maxOld - start);
+        if (rangeOld == 0) {
+            return start;
+        } else {
+            int rangeNew = (maxNew - start);
+            return (((value - start) * rangeNew) / rangeOld) + start;
+        }
+
+    }
+
+    // Assumes start at 0
+    public static double rangeChange(int maxOld, int maxNew, double value) {
+        return rangeChange(0, maxOld, maxNew, value);
+    }
 }

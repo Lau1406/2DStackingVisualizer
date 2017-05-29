@@ -13,11 +13,18 @@ import static nl.lkeijzer.Constants.*;
  */
 public class VisualizerPanel extends JPanel {
 
+    private boolean mFixedHeight;
+    private boolean mRotationsAllowed;
+    private int mMaxHeight;
+
     private Dimension mContainer = new Dimension(0, 0);
     private Rectangle[] mRectangles = new Rectangle[0];
 
 
-    public VisualizerPanel(Rectangle[] rectangles) {
+    public VisualizerPanel(Rectangle[] rectangles, boolean fixedHeight, boolean rotationsAllowed, int maxHeight) {
+        mFixedHeight = fixedHeight;
+        mRotationsAllowed = rotationsAllowed;
+        mMaxHeight = maxHeight;
         setRectangles(rectangles);
     }
 
@@ -88,30 +95,14 @@ public class VisualizerPanel extends JPanel {
         int x, y, width, height;
         Point bottom = rect.getBottomLeft();
         Dimension dim = this.getSize();
-        width = (int) rangeChange(mContainer.width, dim.width, rect.getWidth());
-        height = (int) rangeChange(mContainer.height, dim.height, rect.getHeight());
+        width = (int) CustomMath.rangeChange(mContainer.width, dim.width, rect.getWidth());
+        height = (int) CustomMath.rangeChange(mContainer.height, dim.height, rect.getHeight());
 
-        x = (int) rangeChange(mContainer.width, dim.width, bottom.x);
-        y = this.getSize().height - height - (int) rangeChange(mContainer.height, dim.height, bottom.y);
+        x = (int) CustomMath.rangeChange(mContainer.width, dim.width, bottom.x);
+        y = this.getSize().height - height - (int) CustomMath.rangeChange(mContainer.height, dim.height, bottom.y);
 
 
         g.fillRect(x, y, width, height);
         g.setColor(origColor);
-    }
-
-    private double rangeChange(int start, int maxOld, int maxNew, double value) {
-        int rangeOld = (maxOld - start);
-        if (rangeOld == 0) {
-            return start;
-        } else {
-            int rangeNew = (maxNew - start);
-            return (((value - start) * rangeNew) / rangeOld) + start;
-        }
-
-    }
-
-    // Assumes start at 0
-    private double rangeChange(int maxOld, int maxNew, double value) {
-        return rangeChange(0, maxOld, maxNew, value);
     }
 }
