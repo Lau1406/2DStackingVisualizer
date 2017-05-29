@@ -1,8 +1,10 @@
 package nl.lkeijzer;
 
 import nl.lkeijzer.Gui.MainFrame;
+import nl.lkeijzer.Objects.Rectangle;
 import nl.lkeijzer.Services.InputReader;
 
+import javax.swing.*;
 import java.io.File;
 
 import static nl.lkeijzer.Constants.*;
@@ -22,8 +24,8 @@ public class Main {
             mFile = new File(mFileName);
         }
         mInputReader = new InputReader();
-        mMainFrame = new MainFrame("Visualizer", () -> mMainFrame.setRectangles(mInputReader.readInput(null)));
-        mMainFrame.setRectangles(mInputReader.readInput(mFile));
+        Rectangle[] rectangles = mInputReader.readInput(mFile);
+        mMainFrame = new MainFrame("Visualizer", rectangles, () -> mMainFrame.setRectangles(mInputReader.readInput(null)));
     }
 
     public static void main(String[] args) {
@@ -35,6 +37,16 @@ public class Main {
                 }
                 continue;
             }
+        }
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            // If Nimbus is not available, you can set the GUI to another look and feel.
         }
 
         new Main();

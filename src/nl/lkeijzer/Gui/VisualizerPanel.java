@@ -16,8 +16,9 @@ public class VisualizerPanel extends JPanel {
     private Rectangle[] mRectangles = new Rectangle[0];
 
 
-    public VisualizerPanel(LayoutManager lm) {
+    public VisualizerPanel(LayoutManager lm, Rectangle[] rectangles) {
         super(lm);
+        setRectangles(rectangles);
     }
 
     public void setRectangles(Rectangle[] rectangles) {

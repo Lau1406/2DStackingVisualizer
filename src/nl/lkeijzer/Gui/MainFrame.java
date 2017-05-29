@@ -34,7 +34,7 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener 
 
 
 
-    public MainFrame(String title, Callback callback) {
+    public MainFrame(String title, Rectangle[] rectangles, Callback callback) {
         super(title);
         mCallback = callback;
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -45,7 +45,7 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener 
 
         c = new GridBagConstraints();
 
-        mVisualizerPanel = new VisualizerPanel(new GridBagLayout());
+        mVisualizerPanel = new VisualizerPanel(new GridBagLayout(), rectangles);
         mInfoPanel = new InfoPanel();
         mJPanelButtons = new JPanel(new GridBagLayout());
 
