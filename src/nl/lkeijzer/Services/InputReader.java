@@ -37,6 +37,7 @@ public class InputReader {
         try{
             if (file == null) {
                 sc = new Scanner(System.in);
+                System.out.println("Please put the input here:");
             } else {
                 sc = new Scanner(file);
             }
