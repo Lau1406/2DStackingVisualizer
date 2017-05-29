@@ -18,6 +18,8 @@ public abstract class Constants {
     public static final int LINE_HEIGHT = 5;
     public static final int STR_OFFSET_WIDTH_CHAR = 3;
     public static final int STR_OFFSET_HEIGHT_CHAR = 5;
+    public static final int TASK_BAR_OFFSET = 50;
+    public static final int MIN_SCREEN_SIZE = 600;
 
     // Floats
     public static final float TABLE_SIZE = 20;

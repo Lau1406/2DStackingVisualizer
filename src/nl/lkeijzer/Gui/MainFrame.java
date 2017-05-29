@@ -34,7 +34,7 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener,
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.addWindowListener(this);
         this.addComponentListener(this);
-        int min = (int) Math.min(SCREEN_WIDTH, SCREEN_HEIGHT - 75); // Tiny offset for the task-bar
+        int min = (int) Math.min(SCREEN_WIDTH, SCREEN_HEIGHT - TASK_BAR_OFFSET); // Tiny offset for the task-bar
         this.setSize(min, min);
 
         mWrapper = new JPanel(new MigLayout());
@@ -55,10 +55,10 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener,
         this.add(mWrapper);
         this.repaint();
 
-        this.setMinimumSize(new Dimension(600, 600));
+        this.setMinimumSize(new Dimension(MIN_SCREEN_SIZE, MIN_SCREEN_SIZE));
         this.setLocation(
                 (int) (SCREEN_WIDTH / 2 - this.getWidth() / 2),
-                (int) (Constants.SCREEN_HEIGHT / 2 - this.getHeight() / 2));
+                (int) (Constants.SCREEN_HEIGHT / 2 - this.getHeight() / 2 - TASK_BAR_OFFSET / 2));
         Dimension dim = this.getSize();
         mVisualizerPanel.setPreferredSize(new Dimension((int) (dim.getWidth() * 0.75), (int) SCREEN_HEIGHT));
         mInfoPanel.setPreferredSize(new Dimension((int) (dim.getWidth() * 0.25), (int) SCREEN_HEIGHT));

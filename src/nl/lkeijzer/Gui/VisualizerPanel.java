@@ -1,6 +1,7 @@
 package nl.lkeijzer.Gui;
 
 import nl.lkeijzer.Objects.Rectangle;
+import nl.lkeijzer.Services.CustomMath;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,21 +23,7 @@ public class VisualizerPanel extends JPanel {
 
     public void setRectangles(Rectangle[] rectangles) {
         this.mRectangles = rectangles;
-        calcContainer();
-    }
-
-    private void calcContainer() {
-        int maxWidth = 0;
-        int maxHeight = 0;
-        for (Rectangle rectangle : mRectangles) {
-            if (rectangle.getHeight() + rectangle.getBottomLeft().y > maxHeight) {
-                maxHeight = rectangle.getHeight() + rectangle.getBottomLeft().y;
-            }
-            if (rectangle.getWidth() + rectangle.getBottomLeft().x > maxWidth) {
-                maxWidth = rectangle.getWidth() + rectangle.getBottomLeft().x;
-            }
-        }
-        mContainer.setSize(maxWidth, maxHeight);
+        CustomMath.calcContainer(mRectangles, mContainer);
     }
 
     @Override

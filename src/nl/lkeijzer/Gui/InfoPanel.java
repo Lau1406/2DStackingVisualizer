@@ -2,6 +2,7 @@ package nl.lkeijzer.Gui;
 
 import net.miginfocom.swing.MigLayout;
 import nl.lkeijzer.Objects.Rectangle;
+import nl.lkeijzer.Services.CustomMath;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,10 +13,14 @@ import java.awt.*;
 public class InfoPanel extends JPanel {
 
     private Rectangle[] mRectangles;
+    private Dimension mContainer = new Dimension(0, 0);
 
-    private JLabel mLabelBox;
-    private JLabel mLabelMin;
-    private JLabel mLabelPercentage;
+    private JLabel mLabelBoxArea;
+    private JLabel mLabelMinArea;
+    private JLabel mLabelPercentageArea;
+    private JLabel mLabelWidth;
+    private JLabel mLabelHeight;
+    private JLabel mLabelAmountRectangles;
 
     public InfoPanel(Rectangle[] rectangles) {
         mRectangles = rectangles;
@@ -30,18 +35,26 @@ public class InfoPanel extends JPanel {
     }
 
     private void addComponents() {
-        mLabelBox = new JLabel();
-        mLabelMin = new JLabel();
-        mLabelPercentage = new JLabel();
+        mLabelBoxArea = new JLabel();
+        mLabelMinArea = new JLabel();
+        mLabelPercentageArea = new JLabel();
+        mLabelWidth = new JLabel();
+        mLabelHeight = new JLabel();
+        mLabelAmountRectangles = new JLabel();
 
         calcStuff();
 
-        this.add(mLabelBox, "wrap");
-        this.add(mLabelMin, "wrap");
-        this.add(mLabelPercentage, "wrap");
+        this.add(mLabelBoxArea, "wrap");
+        this.add(mLabelMinArea, "wrap");
+        this.add(mLabelPercentageArea, "wrap");
+        this.add(mLabelWidth, "wrap");
+        this.add(mLabelHeight, "wrap");
+        this.add(mLabelAmountRectangles, "wrap");
     }
 
     private void calcStuff() {
+        // Calculate everything
+        CustomMath.calcContainer(mRectangles, mContainer);
         int minArea = 0;
         int maxHeight = 0;
         int maxWidth = 0;
@@ -54,10 +67,15 @@ public class InfoPanel extends JPanel {
                 maxHeight= (int) (rectangle.getHeight() + rectangle.getBottomLeft().getY());
             }
         }
-        mLabelBox.setText("Area Box: " + String.valueOf(maxHeight * maxWidth));
-        mLabelMin.setText("Minimal Area: " + String.valueOf(minArea));
-        mLabelPercentage.setText("Percentage Area: " + String.valueOf(Math.round((double) minArea / (double)
+
+        // Set text in labels
+        mLabelBoxArea.setText("Area Box: " + String.valueOf(maxHeight * maxWidth));
+        mLabelMinArea.setText("Minimal Area: " + String.valueOf(minArea));
+        mLabelPercentageArea.setText("Percentage Area: " + String.valueOf(Math.round((double) minArea / (double)
                 (maxHeight * maxWidth) * 100)) + "%");
+        mLabelWidth.setText("Width: " + String.valueOf((int) mContainer.getWidth()));
+        mLabelHeight.setText("Height: " + String.valueOf((int) mContainer.getHeight()));
+        mLabelAmountRectangles.setText("Amount of rectangles: " + String.valueOf(mRectangles.length));
     }
 
     public void setRectangles(Rectangle[] rectangles) {
