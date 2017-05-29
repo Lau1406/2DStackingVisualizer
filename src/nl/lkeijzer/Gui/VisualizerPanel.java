@@ -45,7 +45,7 @@ public class VisualizerPanel extends JPanel {
             }
 
             if (intervalBigY + i <= height) {
-                g.drawLine(0,  (int) (intervalBigY * i), width, (int) (intervalBigY * i));
+                g.drawLine(0,  (int) (height - intervalBigY * i), width, (int) (height - intervalBigY * i));
             }
 
             // Axis name
