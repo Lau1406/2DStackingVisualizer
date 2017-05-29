@@ -1,9 +1,9 @@
 package nl.lkeijzer.Gui;
 
+import nl.lkeijzer.Objects.Rectangle;
+
 import javax.swing.*;
 import java.awt.*;
-
-import nl.lkeijzer.Objects.Rectangle;
 
 import static nl.lkeijzer.Constants.*;
 
@@ -16,8 +16,7 @@ public class VisualizerPanel extends JPanel {
     private Rectangle[] mRectangles = new Rectangle[0];
 
 
-    public VisualizerPanel(LayoutManager lm, Rectangle[] rectangles) {
-        super(lm);
+    public VisualizerPanel(Rectangle[] rectangles) {
         setRectangles(rectangles);
     }
 
@@ -46,33 +45,36 @@ public class VisualizerPanel extends JPanel {
         int width = this.getWidth();
         int height = this.getHeight();
 
-        g.drawRect(0, 0, width - 1, height - 1);
-
+        int intervalSmallX = (int) Math.ceil(mContainer.getWidth() / TABLE_SIZE);
+        int intervalSmallY = (int) Math.ceil(mContainer.getHeight() / TABLE_SIZE);
+        double intervalBigX = intervalSmallX / mContainer.getWidth() * width;
+        double intervalBigY = intervalSmallY / mContainer.getHeight() * height;
         Color oldColor = g.getColor();
         for (int i = 0; i < (int) TABLE_SIZE; i++) {
             g.setColor(Color.GRAY.brighter());
             // Axis
-            int x = Math.round(width / TABLE_SIZE * i);
-            g.drawLine(x, height, x, 0);
+            if (intervalBigX * i <= width) {
+                g.drawLine((int) (intervalBigX * i), height, (int) (intervalBigX * i), 0);
+            }
 
-            int y = Math.round(height / TABLE_SIZE * i);
-            g.drawLine(0, y, width, y);
-
+            if (intervalBigY + i <= height) {
+                g.drawLine(0,  (int) (intervalBigY * i), width, (int) (intervalBigY * i));
+            }
 
             // Axis name
             g.setColor(Color.BLACK);
 
-            // Don't print string if i == 0
+            // Print only one string if i == 0
             if (i == 0) {
                 g.drawString("0", LINE_HEIGHT, height - LINE_HEIGHT);
                 continue;
             }
-            String str = String.valueOf(Math.round(mContainer.getWidth() / TABLE_SIZE * i));
-            int offset = Math.round(width / TABLE_SIZE * i - (str.length() * STR_OFFSET_WIDTH_CHAR));
+            String str = String.valueOf(intervalSmallX * i);
+            int offset = Math.round((int) (intervalBigX * i) - (str.length() * STR_OFFSET_WIDTH_CHAR));
             g.drawString(str, offset, height - LINE_HEIGHT);
 
-            str = String.valueOf(Math.round(mContainer.getHeight() - (mContainer.getHeight() / TABLE_SIZE * i)));
-            offset = Math.round(height / TABLE_SIZE * i + STR_OFFSET_HEIGHT_CHAR);
+            str = String.valueOf(Math.round(intervalSmallY * i));
+            offset = Math.round(height - ((int) (intervalBigY * i)) + STR_OFFSET_HEIGHT_CHAR);
             g.drawString(str, LINE_HEIGHT, offset);
         }
         g.setColor(oldColor);
@@ -84,6 +86,7 @@ public class VisualizerPanel extends JPanel {
         for (Rectangle r : mRectangles) {
             drawRect(r, g);
         }
+        g.drawRect(0, 0, width - 1, height - 1);
 
     }
 

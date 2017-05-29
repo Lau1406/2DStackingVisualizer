@@ -1,31 +1,25 @@
 package nl.lkeijzer.Gui;
 
+import net.miginfocom.swing.MigLayout;
 import nl.lkeijzer.Constants;
 import nl.lkeijzer.Objects.Rectangle;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 
 import static nl.lkeijzer.Constants.*;
 
 /**
  * Created by Laurence on 2017-05-05.
  */
-public class MainFrame extends JFrame implements WindowListener, ActionListener {
-//    private boolean mFixedHeight = false;
-//    private boolean mRotationsAllowed = false;
-//    private int mMaxHeight = 0;
+public class MainFrame extends JFrame implements WindowListener, ActionListener, ComponentListener {
 
     private Rectangle[] mRectangles;
-    private GridBagConstraints c;
 
     private VisualizerPanel mVisualizerPanel;
     private InfoPanel mInfoPanel;
-    private JPanel mJPanelButtons;
+    private JPanel mWrapper;
 
     private JButton mButtonReadData;
     private JButton mButtonExit;
@@ -39,50 +33,42 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener 
         mCallback = callback;
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.addWindowListener(this);
-        int min = (int) Math.min(SCREEN_WIDTH, SCREEN_HEIGHT);
+        this.addComponentListener(this);
+        int min = (int) Math.min(SCREEN_WIDTH, SCREEN_HEIGHT - 75); // Tiny offset for the task-bar
         this.setSize(min, min);
-        this.setLayout(new BorderLayout());
 
-        c = new GridBagConstraints();
+        mWrapper = new JPanel(new MigLayout());
 
-        mVisualizerPanel = new VisualizerPanel(new GridBagLayout(), rectangles);
-        mInfoPanel = new InfoPanel();
-        mJPanelButtons = new JPanel(new GridBagLayout());
+        mVisualizerPanel = new VisualizerPanel(rectangles);
+        mInfoPanel = new InfoPanel(rectangles);
 
         mButtonReadData = new JButton("Get Data");
         mButtonExit = new JButton("Exit");
         mButtonReadData.addActionListener(this);
         mButtonExit.addActionListener(this);
 
-        c.gridx = 0;
-        c.gridy = 0;
-        c.fill = GridBagConstraints.BOTH;
-        mJPanelButtons.add(mButtonReadData, c);
-        c.gridx = 1;
-        mJPanelButtons.add(mButtonExit, c);
+        mWrapper.add(mVisualizerPanel, "cell 0 0");
+        mWrapper.add(mInfoPanel, "cell 1 0");
+        mWrapper.add(mButtonReadData, "cell 0 1, span, split 2, center");
+        mWrapper.add(mButtonExit, "cell 1 1");
 
-        this.add(mJPanelButtons, BorderLayout.SOUTH);
-//        this.add(mInfoPanel, BorderLayout.WEST);
-        this.add(mVisualizerPanel);
+        this.add(mWrapper);
         this.repaint();
 
         this.setMinimumSize(new Dimension(600, 600));
         this.setLocation(
                 (int) (SCREEN_WIDTH / 2 - this.getWidth() / 2),
                 (int) (Constants.SCREEN_HEIGHT / 2 - this.getHeight() / 2));
+        Dimension dim = this.getSize();
+        mVisualizerPanel.setPreferredSize(new Dimension((int) (dim.getWidth() * 0.75), (int) SCREEN_HEIGHT));
+        mInfoPanel.setPreferredSize(new Dimension((int) (dim.getWidth() * 0.25), (int) SCREEN_HEIGHT));
         this.setVisible(true);
-    }
-
-    private void resetGridBagConstraints(GridBagConstraints gb) {
-        gb.gridx = 0;
-        gb.gridy = 0;
-        gb.gridheight = 1;
-        gb.gridwidth = 1;
     }
 
     public void setRectangles(Rectangle[] rectangles) {
         this.mRectangles = rectangles;
         mVisualizerPanel.setRectangles(rectangles);
+        mInfoPanel.setRectangles(rectangles);
         draw();
     }
 
@@ -135,6 +121,33 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener 
             mCallback.readData();
         }
     }
+
+    @Override
+    public void componentResized(ComponentEvent e) {
+        Dimension dim = this.getSize();
+        if (mVisualizerPanel != null) {
+            mVisualizerPanel.setPreferredSize(new Dimension((int) (dim.getWidth() * 0.75), (int) SCREEN_HEIGHT));
+        }
+        if (mInfoPanel != null) {
+            mInfoPanel.setPreferredSize(new Dimension((int) (dim.getWidth() * 0.25), (int) SCREEN_HEIGHT));
+        }
+    }
+
+    @Override
+    public void componentMoved(ComponentEvent e) {
+
+    }
+
+    @Override
+    public void componentShown(ComponentEvent e) {
+
+    }
+
+    @Override
+    public void componentHidden(ComponentEvent e) {
+
+    }
+
     public interface Callback {
         void readData();
     }
