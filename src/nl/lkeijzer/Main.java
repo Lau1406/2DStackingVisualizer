@@ -29,8 +29,14 @@ public class Main {
         mInputReader = new InputReader();
         Rectangle[] rectangles = mInputReader.readInput(mFile);
         mMainFrame = new MainFrame("Visualizer", rectangles, mInputReader.isFixedHeight(),
-                mInputReader.isRotationsAllowed(), mInputReader.getHeight(),
-                () -> mMainFrame.setRectangles(mInputReader.readInput(null)));
+                mInputReader.isRotationsAllowed(), mInputReader.getHeight(), new MainFrame.Callback() {
+            @Override
+            public void readData() {
+                mInputReader.readInput(null);
+                mMainFrame.setRectangles(mInputReader.getRectangles(), mInputReader.isFixedHeight(), mInputReader
+                        .isRotationsAllowed(), mInputReader.getHeight());
+            }
+        });
     }
 
     public static void main(String[] args) {

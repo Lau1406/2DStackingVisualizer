@@ -22,15 +22,18 @@ public class VisualizerPanel extends JPanel {
 
 
     public VisualizerPanel(Rectangle[] rectangles, boolean fixedHeight, boolean rotationsAllowed, int maxHeight) {
+        setRectangles(rectangles, fixedHeight, rotationsAllowed, maxHeight);
+    }
+
+    public void setRectangles(Rectangle[] rectangles, boolean fixedHeight, boolean rotationsAllowed, int maxHeight) {
         mFixedHeight = fixedHeight;
         mRotationsAllowed = rotationsAllowed;
         mMaxHeight = maxHeight;
-        setRectangles(rectangles);
-    }
-
-    public void setRectangles(Rectangle[] rectangles) {
         this.mRectangles = rectangles;
-        CustomMath.calcContainer(mRectangles, mContainer);
+        if (!mFixedHeight) {
+            mMaxHeight = -1;
+        }
+        CustomMath.calcContainer(mRectangles, mContainer, mMaxHeight);
     }
 
     @Override
@@ -71,6 +74,18 @@ public class VisualizerPanel extends JPanel {
             offset = Math.round(height - ((int) (intervalBigY * i)) + STR_OFFSET_HEIGHT_CHAR);
             g.drawString(str, LINE_HEIGHT, offset);
         }
+
+        // Draw max height if fixedHeight
+        if (mFixedHeight) {
+            g.setColor(Color.RED);
+            if (mMaxHeight == mContainer.getHeight()) {
+                g.drawLine(0, height - (int) (mMaxHeight / mContainer.getHeight() * height) + 1,
+                        width, height - (int) (mMaxHeight / mContainer.getHeight() * height) + 1);
+            } else {
+                g.drawLine(0, height - (int) (mMaxHeight / mContainer.getHeight() * height), width, height - (int) (mMaxHeight / mContainer.getHeight() * height));
+            }
+        }
+
         g.setColor(oldColor);
 
         g.setColor(Color.BLACK);
@@ -80,6 +95,7 @@ public class VisualizerPanel extends JPanel {
         for (Rectangle r : mRectangles) {
             drawRect(r, g);
         }
+
         g.drawRect(0, 0, width - 1, height - 1);
 
     }

@@ -12,6 +12,10 @@ import java.awt.*;
  */
 public class InfoPanel extends JPanel {
 
+    private boolean mFixedHeight;
+    private boolean mRotationsAllowed;
+    private int mMaxHeight;
+
     private Rectangle[] mRectangles;
     private Dimension mContainer = new Dimension(0, 0);
 
@@ -21,8 +25,17 @@ public class InfoPanel extends JPanel {
     private JLabel mLabelWidth;
     private JLabel mLabelHeight;
     private JLabel mLabelAmountRectangles;
+    private JLabel mLabelFixedHeight;
+    private JLabel mLabelMaxHeightAllowed;
+    private JLabel mLabelRotationsAllowed;
 
-    public InfoPanel(Rectangle[] rectangles) {
+    public InfoPanel(Rectangle[] rectangles, boolean fixedHeight, boolean rotationsAllowed, int maxHeight) {
+        mFixedHeight = fixedHeight;
+        mRotationsAllowed = rotationsAllowed;
+        mMaxHeight = maxHeight;
+        if (!mFixedHeight) {
+            mMaxHeight = -1;
+        }
         mRectangles = rectangles;
         this.setLayout(new MigLayout());
         addComponents();
@@ -41,6 +54,9 @@ public class InfoPanel extends JPanel {
         mLabelWidth = new JLabel();
         mLabelHeight = new JLabel();
         mLabelAmountRectangles = new JLabel();
+        mLabelFixedHeight = new JLabel();
+        mLabelMaxHeightAllowed = new JLabel();
+        mLabelRotationsAllowed = new JLabel();
 
         calcStuff();
 
@@ -50,11 +66,14 @@ public class InfoPanel extends JPanel {
         this.add(mLabelWidth, "wrap");
         this.add(mLabelHeight, "wrap");
         this.add(mLabelAmountRectangles, "wrap");
+        this.add(mLabelFixedHeight, "wrap");
+        this.add(mLabelMaxHeightAllowed, "wrap");
+        this.add(mLabelRotationsAllowed, "wrap");
     }
 
     private void calcStuff() {
         // Calculate everything
-        CustomMath.calcContainer(mRectangles, mContainer);
+        CustomMath.calcContainer(mRectangles, mContainer, mMaxHeight);
         int minArea = 0;
         int maxHeight = 0;
         int maxWidth = 0;
@@ -67,6 +86,9 @@ public class InfoPanel extends JPanel {
                 maxHeight= (int) (rectangle.getHeight() + rectangle.getBottomLeft().getY());
             }
         }
+        if (!mFixedHeight) {
+            mLabelMaxHeightAllowed.setVisible(false);
+        }
 
         // Set text in labels
         mLabelBoxArea.setText("Area Box: " + String.valueOf(maxHeight * maxWidth));
@@ -76,6 +98,9 @@ public class InfoPanel extends JPanel {
         mLabelWidth.setText("Width: " + String.valueOf((int) mContainer.getWidth()));
         mLabelHeight.setText("Height: " + String.valueOf((int) mContainer.getHeight()));
         mLabelAmountRectangles.setText("Amount of rectangles: " + String.valueOf(mRectangles.length));
+        mLabelFixedHeight.setText("Fixed Height: " + mFixedHeight);
+        mLabelMaxHeightAllowed.setText("Maximum Height: " + mMaxHeight);
+        mLabelRotationsAllowed.setText("Rotations Allowed: " + mRotationsAllowed);
     }
 
     public void setRectangles(Rectangle[] rectangles) {

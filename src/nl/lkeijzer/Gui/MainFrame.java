@@ -48,7 +48,7 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener,
         mWrapper = new JPanel(new MigLayout());
 
         mVisualizerPanel = new VisualizerPanel(rectangles, mFixedHeight, mRotationsAllowed, mMaxHeight);
-        mInfoPanel = new InfoPanel(rectangles);
+        mInfoPanel = new InfoPanel(rectangles, mFixedHeight, mRotationsAllowed, mMaxHeight);
 
         mButtonReadData = new JButton("Get Data");
         mButtonExit = new JButton("Exit");
@@ -73,9 +73,9 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener,
         this.setVisible(true);
     }
 
-    public void setRectangles(Rectangle[] rectangles) {
+    public void setRectangles(Rectangle[] rectangles, boolean fixedHeight, boolean rotationsAllowed, int maxHeight) {
         this.mRectangles = rectangles;
-        mVisualizerPanel.setRectangles(rectangles);
+        mVisualizerPanel.setRectangles(rectangles, fixedHeight, rotationsAllowed, maxHeight);
         mInfoPanel.setRectangles(rectangles);
         draw();
     }

@@ -11,7 +11,7 @@ public final class CustomMath {
     private CustomMath() {
     }
 
-    public static void calcContainer(Rectangle[] rectangles, Dimension container) {
+    public static void calcContainer(Rectangle[] rectangles, Dimension container, int fixedHeight) {
         int maxWidth = 0;
         int maxHeight = 0;
         for (Rectangle rectangle : rectangles) {
@@ -21,6 +21,9 @@ public final class CustomMath {
             if (rectangle.getWidth() + rectangle.getBottomLeft().x > maxWidth) {
                 maxWidth = rectangle.getWidth() + rectangle.getBottomLeft().x;
             }
+        }
+        if (fixedHeight > 0) {
+            maxHeight = Math.max(maxHeight, fixedHeight);
         }
         container.setSize(maxWidth, maxHeight);
     }
