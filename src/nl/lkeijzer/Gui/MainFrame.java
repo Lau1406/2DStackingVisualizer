@@ -117,8 +117,7 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener,
         if (src == mButtonExit) {
             this.dispose();
         } else if (src == mButtonReadData) {
-            // TODO: make call async
-            mCallback.readData();
+            new Thread(() -> mCallback.readData()).start();
         }
     }
 
