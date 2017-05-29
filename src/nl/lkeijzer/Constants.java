@@ -13,6 +13,7 @@ public abstract class Constants {
 
     // Strings
     public static final String ARG_FILE = "-f";
+    public static final String ARG_STRING_INPUT = "-i";
 
     // Ints
     public static final int LINE_HEIGHT = 5;

@@ -6,8 +6,11 @@ import nl.lkeijzer.Services.InputReader;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-import static nl.lkeijzer.Constants.*;
+import static nl.lkeijzer.Constants.ARG_FILE;
+import static nl.lkeijzer.Constants.ARG_STRING_INPUT;
 
 /**
  * Created by Laurence Keijzer on 2017-05-04.
@@ -34,6 +37,20 @@ public class Main {
             if (args[i].equalsIgnoreCase(ARG_FILE)) {
                 if (i + 1 < args.length) {
                     mFileName = args[i + 1];
+                }
+                continue;
+            }
+            // Check for input file
+            if (args[i].equalsIgnoreCase(ARG_STRING_INPUT)) {
+                if (i + 1 < args.length) {
+                    mFileName = "tempFile.txt";
+                    try{
+                        PrintWriter writer = new PrintWriter(mFileName, "UTF-8");
+                        writer.write(args[i + 1]);
+                        writer.close();
+                    } catch (IOException e) {
+                        // do something
+                    }
                 }
                 continue;
             }
