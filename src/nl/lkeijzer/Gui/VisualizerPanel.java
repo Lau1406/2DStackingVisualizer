@@ -111,8 +111,13 @@ public class VisualizerPanel extends JPanel {
         int x, y, width, height;
         Point bottom = rect.getBottomLeft();
         Dimension dim = this.getSize();
-        width = (int) CustomMath.rangeChange(mContainer.width, dim.width, rect.getWidth());
-        height = (int) CustomMath.rangeChange(mContainer.height, dim.height, rect.getHeight());
+        if (rect.isRotated()) {
+            height = (int) CustomMath.rangeChange(mContainer.width, dim.width, rect.getWidth());
+            width = (int) CustomMath.rangeChange(mContainer.height, dim.height, rect.getHeight());
+        } else {
+            width = (int) CustomMath.rangeChange(mContainer.width, dim.width, rect.getWidth());
+            height = (int) CustomMath.rangeChange(mContainer.height, dim.height, rect.getHeight());
+        }
 
         x = (int) CustomMath.rangeChange(mContainer.width, dim.width, bottom.x);
         y = this.getSize().height - height - (int) CustomMath.rangeChange(mContainer.height, dim.height, bottom.y);

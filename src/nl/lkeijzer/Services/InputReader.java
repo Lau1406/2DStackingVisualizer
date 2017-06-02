@@ -149,11 +149,16 @@ public class InputReader {
         sc.next();
 
         // Read all the locations of the rectangles
-        for (int i = 0; i < mRectangles.length; i++) {
+        for (Rectangle mRectangle : mRectangles) {
             if (mRotationsAllowed) {
-                sc.next();  // Consume 'yes' or 'no'
+                String rotated = sc.next();  // Consume 'yes' or 'no'
+                if (rotated.equalsIgnoreCase("yes")) {
+                    mRectangle.setRotated(true);
+                } else if (rotated.equalsIgnoreCase("no")) {
+                    mRectangle.setRotated(false);
+                }
             }
-            mRectangles[i].setBottomLeft(new Point(sc.nextInt(), sc.nextInt()));
+            mRectangle.setBottomLeft(new Point(sc.nextInt(), sc.nextInt()));
         }
     }
 

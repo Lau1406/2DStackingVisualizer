@@ -18,6 +18,7 @@ import static nl.lkeijzer.Constants.ARG_STRING_INPUT;
 public class Main {
     private MainFrame mMainFrame;
     private InputReader mInputReader;
+    private boolean mIsReadingData = false;
 
     private static String mFileName;
     private File mFile;
@@ -32,9 +33,14 @@ public class Main {
                 mInputReader.isRotationsAllowed(), mInputReader.getHeight(), new MainFrame.Callback() {
             @Override
             public void readData() {
+                if (mIsReadingData) {
+                    return;
+                }
+                mIsReadingData = true;
                 mInputReader.readInput(null);
                 mMainFrame.setRectangles(mInputReader.getRectangles(), mInputReader.isFixedHeight(), mInputReader
                         .isRotationsAllowed(), mInputReader.getHeight());
+                mIsReadingData = false;
             }
         });
     }
