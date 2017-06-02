@@ -15,11 +15,20 @@ public final class CustomMath {
         int maxWidth = 0;
         int maxHeight = 0;
         for (Rectangle rectangle : rectangles) {
-            if (rectangle.getHeight() + rectangle.getBottomLeft().y > maxHeight) {
-                maxHeight = rectangle.getHeight() + rectangle.getBottomLeft().y;
-            }
-            if (rectangle.getWidth() + rectangle.getBottomLeft().x > maxWidth) {
-                maxWidth = rectangle.getWidth() + rectangle.getBottomLeft().x;
+            if (rectangle.isRotated()) {
+                if (rectangle.getWidth() + rectangle.getBottomLeft().y > maxHeight) {
+                    maxHeight = rectangle.getWidth() + rectangle.getBottomLeft().y;
+                }
+                if (rectangle.getHeight() + rectangle.getBottomLeft().x > maxWidth) {
+                    maxWidth = rectangle.getHeight() + rectangle.getBottomLeft().x;
+                }
+            } else {
+                if (rectangle.getHeight() + rectangle.getBottomLeft().y > maxHeight) {
+                    maxHeight = rectangle.getHeight() + rectangle.getBottomLeft().y;
+                }
+                if (rectangle.getWidth() + rectangle.getBottomLeft().x > maxWidth) {
+                    maxWidth = rectangle.getWidth() + rectangle.getBottomLeft().x;
+                }
             }
         }
         if (fixedHeight > 0) {
