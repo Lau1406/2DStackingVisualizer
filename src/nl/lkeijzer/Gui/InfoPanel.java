@@ -79,11 +79,20 @@ public class InfoPanel extends JPanel {
         int maxWidth = 0;
         for (Rectangle rectangle : mRectangles) {
             minArea += rectangle.getHeight() * rectangle.getWidth();
-            if (rectangle.getWidth() + rectangle.getBottomLeft().getX() > maxWidth) {
-                maxWidth = (int) (rectangle.getWidth() + rectangle.getBottomLeft().getX());
-            }
-            if (rectangle.getHeight() + rectangle.getBottomLeft().getY() > maxHeight) {
-                maxHeight= (int) (rectangle.getHeight() + rectangle.getBottomLeft().getY());
+            if (rectangle.isRotated()) {
+                if (rectangle.getHeight() + rectangle.getBottomLeft().getX() > maxWidth) {
+                    maxWidth = (int) (rectangle.getHeight() + rectangle.getBottomLeft().getX());
+                }
+                if (rectangle.getWidth() + rectangle.getBottomLeft().getY() > maxHeight) {
+                    maxHeight= (int) (rectangle.getWidth() + rectangle.getBottomLeft().getY());
+                }
+            } else {
+                if (rectangle.getWidth() + rectangle.getBottomLeft().getX() > maxWidth) {
+                    maxWidth = (int) (rectangle.getWidth() + rectangle.getBottomLeft().getX());
+                }
+                if (rectangle.getHeight() + rectangle.getBottomLeft().getY() > maxHeight) {
+                    maxHeight= (int) (rectangle.getHeight() + rectangle.getBottomLeft().getY());
+                }
             }
         }
         if (!mFixedHeight) {
