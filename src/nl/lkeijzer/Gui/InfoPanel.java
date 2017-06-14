@@ -79,11 +79,20 @@ public class InfoPanel extends JPanel {
         int maxWidth = 0;
         for (Rectangle rectangle : mRectangles) {
             minArea += rectangle.getHeight() * rectangle.getWidth();
-            if (rectangle.getWidth() + rectangle.getBottomLeft().getX() > maxWidth) {
-                maxWidth = (int) (rectangle.getWidth() + rectangle.getBottomLeft().getX());
-            }
-            if (rectangle.getHeight() + rectangle.getBottomLeft().getY() > maxHeight) {
-                maxHeight= (int) (rectangle.getHeight() + rectangle.getBottomLeft().getY());
+            if (rectangle.isRotated()) {
+                if (rectangle.getHeight() + rectangle.getBottomLeft().getX() > maxWidth) {
+                    maxWidth = (int) (rectangle.getHeight() + rectangle.getBottomLeft().getX());
+                }
+                if (rectangle.getWidth() + rectangle.getBottomLeft().getY() > maxHeight) {
+                    maxHeight= (int) (rectangle.getWidth() + rectangle.getBottomLeft().getY());
+                }
+            } else {
+                if (rectangle.getWidth() + rectangle.getBottomLeft().getX() > maxWidth) {
+                    maxWidth = (int) (rectangle.getWidth() + rectangle.getBottomLeft().getX());
+                }
+                if (rectangle.getHeight() + rectangle.getBottomLeft().getY() > maxHeight) {
+                    maxHeight= (int) (rectangle.getHeight() + rectangle.getBottomLeft().getY());
+                }
             }
         }
         if (!mFixedHeight) {
@@ -91,10 +100,19 @@ public class InfoPanel extends JPanel {
         }
 
         // Set text in labels
-        mLabelBoxArea.setText("Area Box: " + String.valueOf(maxHeight * maxWidth));
+        if (mFixedHeight) {
+            mLabelBoxArea.setText("Area Box: " + String.valueOf(mMaxHeight * maxWidth));
+        } else {
+            mLabelBoxArea.setText("Area Box: " + String.valueOf(maxHeight * maxWidth));
+        }
         mLabelMinArea.setText("Minimal Area: " + String.valueOf(minArea));
-        mLabelPercentageArea.setText("Percentage Area: " + String.valueOf(Math.round((double) minArea / (double)
-                (maxHeight * maxWidth) * 100)) + "%");
+        if (mFixedHeight) {
+            mLabelPercentageArea.setText("Percentage Area: " + String.valueOf(Math.round((double) minArea / (double)
+                    (mMaxHeight * maxWidth) * 100)) + "%");
+        } else {
+            mLabelPercentageArea.setText("Percentage Area: " + String.valueOf(Math.round((double) minArea / (double)
+                    (maxHeight * maxWidth) * 100)) + "%");
+        }
         mLabelWidth.setText("Width: " + String.valueOf((int) mContainer.getWidth()));
         mLabelHeight.setText("Height: " + String.valueOf((int) mContainer.getHeight()));
         mLabelAmountRectangles.setText("Amount of rectangles: " + String.valueOf(mRectangles.length));
